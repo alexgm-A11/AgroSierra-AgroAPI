@@ -15,6 +15,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pe.upeu.agrosierra.seguridad.Usuario;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 
@@ -30,7 +31,7 @@ public class Labor {
     @Column(nullable = false) private LocalDate fecha;
     @ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name = "responsable_id", nullable = false)
     private Usuario responsable;
-    @Column(nullable = false) private double cantidad;
+    @Column(nullable = false) private BigDecimal cantidad;
     @Column(nullable = false, length = 500) private String observacion;
     @Column(name = "creado_en", nullable = false) private Instant creadoEn;
 }

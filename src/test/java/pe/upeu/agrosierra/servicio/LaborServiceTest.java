@@ -10,6 +10,7 @@ import pe.upeu.agrosierra.repositorio.LaborRepository;
 import pe.upeu.agrosierra.repositorio.LoteRepository;
 import pe.upeu.agrosierra.repositorio.UsuarioRepository;
 import pe.upeu.agrosierra.web.dto.ApiDtos;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Optional;
@@ -68,7 +69,7 @@ class LaborServiceTest {
         responsable.setUsername("tecnico1");
         Labor labor = new Labor();
         labor.setId(15L); labor.setLote(lote); labor.setResponsable(responsable);
-        labor.setTipo(TipoLabor.RIEGO); labor.setFecha(LocalDate.now()); labor.setCantidad(50);
+        labor.setTipo(TipoLabor.RIEGO); labor.setFecha(LocalDate.now()); labor.setCantidad(BigDecimal.valueOf(50));
         labor.setObservacion("Riego"); labor.setCreadoEn(Instant.now());
         when(labores.findById(15L)).thenReturn(Optional.of(labor));
 
@@ -80,7 +81,7 @@ class LaborServiceTest {
     private Lote lote(boolean closed) {
         Lote lote = new Lote();
         lote.setId(1L); lote.setCodigo("LT-001"); lote.setNombre("El Mirador");
-        lote.setHectareas(2.0); lote.setDosisMaximaPorHectarea(2.0); lote.setCampaniaCerrada(closed);
+        lote.setHectareas(BigDecimal.valueOf(2.0)); lote.setDosisMaximaPorHectarea(BigDecimal.valueOf(2.0)); lote.setCampaniaCerrada(closed);
         return lote;
     }
 }
