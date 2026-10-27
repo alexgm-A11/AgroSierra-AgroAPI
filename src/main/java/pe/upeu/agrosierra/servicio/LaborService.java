@@ -12,6 +12,7 @@ import pe.upeu.agrosierra.repositorio.LaborRepository;
 import pe.upeu.agrosierra.repositorio.LoteRepository;
 import pe.upeu.agrosierra.repositorio.UsuarioRepository;
 import pe.upeu.agrosierra.web.dto.ApiDtos;
+import java.math.BigDecimal;
 import java.time.Instant;
 
 @Service
@@ -45,7 +46,7 @@ public class LaborService {
         labor.setTipo(request.tipo());
         labor.setFecha(request.fecha());
         labor.setResponsable(obtenerUsuario(username));
-        labor.setCantidad(request.cantidad());
+        labor.setCantidad(BigDecimal.valueOf(request.cantidad()));
         labor.setObservacion(request.observacion().trim());
         labor.setCreadoEn(Instant.now());
         return ApiDtos.LaborResponse.from(labores.save(labor));
@@ -66,7 +67,7 @@ public class LaborService {
         comprobarDosis(labor.getLote(), request.tipo(), request.cantidad());
         labor.setTipo(request.tipo());
         labor.setFecha(request.fecha());
-        labor.setCantidad(request.cantidad());
+        labor.setCantidad(BigDecimal.valueOf(request.cantidad()));
         labor.setObservacion(request.observacion().trim());
         return ApiDtos.LaborResponse.from(labores.save(labor));
     }
@@ -97,8 +98,8 @@ public class LaborService {
     }
     private void comprobarDosis(Lote lote, TipoLabor tipo, double cantidad) {
         if (tipo == TipoLabor.FUMIGACION) {
-            double maximo = lote.getDosisMaximaPorHectarea() * lote.getHectareas();
-            if (cantidad > maximo) throw new ErroresDominio.Validacion("cantidad",
+            BigDecimal maximo = lote.getDosisMaximaPorHectarea().multiply(lote.getHectareas());
+            if (BigDecimal.valueOf(cantidad).compareTo(maximo) > 0) throw new ErroresDominio.Validacion("cantidad",
                 "La dosis máxima para este lote es " + maximo + " (dosis por hectárea × hectáreas)");
         }
     }

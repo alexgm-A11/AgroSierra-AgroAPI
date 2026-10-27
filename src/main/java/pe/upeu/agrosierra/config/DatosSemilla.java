@@ -12,6 +12,7 @@ import pe.upeu.agrosierra.repositorio.LoteRepository;
 import pe.upeu.agrosierra.repositorio.RolRepository;
 import pe.upeu.agrosierra.repositorio.UsuarioRepository;
 import pe.upeu.agrosierra.seguridad.Usuario;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
@@ -66,14 +67,14 @@ public class DatosSemilla {
     }
     private Lote lot(String codigo, String nombre, double hectares, String crop, String valley,
                      boolean closed, double maxDose) {
-        Lote lote = new Lote(); lote.setCodigo(codigo); lote.setNombre(nombre); lote.setHectareas(hectares);
+        Lote lote = new Lote(); lote.setCodigo(codigo); lote.setNombre(nombre); lote.setHectareas(BigDecimal.valueOf(hectares));
         lote.setCultivo(crop); lote.setValle(valley); lote.setCampaniaCerrada(closed);
-        lote.setDosisMaximaPorHectarea(maxDose); return lote;
+        lote.setDosisMaximaPorHectarea(BigDecimal.valueOf(maxDose)); return lote;
     }
     private void laborSeed(LaborRepository repository, Lote lote, Usuario owner, TipoLabor type,
                            int daysAgo, int hoursAgo, double amount) {
         Labor labor = new Labor(); labor.setLote(lote); labor.setResponsable(owner); labor.setTipo(type);
-        labor.setFecha(LocalDate.now().minusDays(daysAgo)); labor.setCantidad(amount);
+        labor.setFecha(LocalDate.now().minusDays(daysAgo)); labor.setCantidad(BigDecimal.valueOf(amount));
         labor.setObservacion("Registro semilla para demostración");
         labor.setCreadoEn(Instant.now().minusSeconds(daysAgo * 86400L + hoursAgo * 3600L)); repository.save(labor);
     }

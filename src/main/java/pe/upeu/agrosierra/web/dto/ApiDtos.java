@@ -20,8 +20,8 @@ public final class ApiDtos {
                                String cultivo, String valle, boolean campaniaCerrada,
                                double dosisMaximaPorHectarea) {
         public static LoteResponse from(Lote lote) {
-            return new LoteResponse(lote.getId(), lote.getCodigo(), lote.getNombre(), lote.getHectareas(),
-                lote.getCultivo(), lote.getValle(), lote.isCampaniaCerrada(), lote.getDosisMaximaPorHectarea());
+            return new LoteResponse(lote.getId(), lote.getCodigo(), lote.getNombre(), lote.getHectareas().doubleValue(),
+                lote.getCultivo(), lote.getValle(), lote.isCampaniaCerrada(), lote.getDosisMaximaPorHectarea().doubleValue());
         }
     }
     public record LaborWriteRequest(@NotNull Long loteId, @NotNull pe.upeu.agrosierra.dominio.TipoLabor tipo,
@@ -35,7 +35,7 @@ public final class ApiDtos {
                                 String observacion, boolean pendiente, long creadoEnEpochMillis) {
         public static LaborResponse from(Labor labor) {
             return new LaborResponse(labor.getId(), labor.getLote().getId(), labor.getTipo(),
-                labor.getFecha().toString(), labor.getResponsable().getUsername(), labor.getCantidad(),
+                labor.getFecha().toString(), labor.getResponsable().getUsername(), labor.getCantidad().doubleValue(),
                 labor.getObservacion(), false, labor.getCreadoEn().toEpochMilli());
         }
     }
