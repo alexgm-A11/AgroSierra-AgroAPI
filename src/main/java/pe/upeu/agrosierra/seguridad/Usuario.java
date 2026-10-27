@@ -1,6 +1,7 @@
 package pe.upeu.agrosierra.seguridad;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -34,6 +35,7 @@ public class Usuario implements UserDetails {
     @JoinColumn(name = "rol_codigo", nullable = false)
     private Rol rol;
 
+    @Convert(converter = pe.upeu.agrosierra.dominio.BooleanoAEnteroConverter.class)
     @Column(nullable = false)
     private boolean activo = true;
 
